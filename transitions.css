@@ -1,0 +1,19 @@
+/* Smooth page transitions */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Fade-in animation for page content */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.page-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}

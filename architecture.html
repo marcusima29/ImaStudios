@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEGO Architecture - Ima Studios</title>
+    <meta name="description" content="Iconic structures reimagined in brick — modern, sleek, and display-ready.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        legoRed: '#FF0000',
+                        legoBlue: '#0055BF',
+                        legoYellow: '#F2CD37',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 1s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                    },
+                },
+            },
+        }
+    </script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/transitions.css">
+    <style>
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .image-hover {
+            transition: transform 0.3s ease;
+        }
+        .image-hover:hover {
+            transform: scale(1.03);
+        }
+        .animation-delay-100 {
+            animation-delay: 100ms;
+        }
+        .animation-delay-200 {
+            animation-delay: 200ms;
+        }
+        .grayscale-hover {
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+        .grayscale-hover:hover {
+            filter: grayscale(0%);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased bg-white text-gray-900">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="flex items-center">
+                        <img class="h-8 w-auto" src="logo.png" alt="Ima Studios logo">
+                        <span class="ml-2 text-xl font-bold text-gray-900">Ima Studios</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-6">
+                        <a href="index.html" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-legoBlue transition-colors duration-200 flex items-center">
+                            <i class="fas fa-home mr-1.5"></i> Home
+                        </a>
+                        <a href="cars.html" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-legoBlue transition-colors duration-200 flex items-center">
+                            <i class="fas fa-car mr-1.5"></i> Cars
+                        </a>
+                        <a href="#" class="px-3 py-2 text-sm font-medium text-legoBlue font-semibold transition-colors duration-200 flex items-center">
+                            <i class="fas fa-building mr-1.5"></i> Architecture
+                        </a>
+                        <a href="technic.html" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-legoBlue transition-colors duration-200 flex items-center">
+                            <i class="fas fa-cogs mr-1.5"></i> Technic
+                        </a>
+                        <a href="about.html" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-legoBlue transition-colors duration-200 flex items-center">
+                            <i class="fas fa-info-circle mr-1.5"></i> About
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-legoRed p-2 rounded-full focus:outline-none transition-colors duration-200">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu, show/hide based on menu state -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg rounded-b-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="text-gray-600 hover:bg-gray-100 hover:text-legoBlue block px-4 py-3 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-home w-6 text-center mr-3"></i> Home
+                </a>
+                <a href="cars.html" class="text-gray-600 hover:bg-gray-100 hover:text-legoBlue block px-4 py-3 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-car w-6 text-center mr-3"></i> Cars
+                </a>
+                <a href="#" class="bg-gray-100 text-legoBlue block px-4 py-3 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-building w-6 text-center mr-3"></i> Architecture
+                </a>
+                <a href="technic.html" class="text-gray-600 hover:bg-gray-100 hover:text-legoBlue block px-4 py-3 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-cogs w-6 text-center mr-3"></i> Technic
+                </a>
+                <a href="about.html" class="text-gray-600 hover:bg-gray-100 hover:text-legoBlue block px-4 py-3 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-info-circle w-6 text-center mr-3"></i> About
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-0">
+        <!-- Hero Section -->
+        <section class="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-20 md:py-32">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">LEGO® Architecture</h1>
+                <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-8 animate-fade-in animation-delay-100">
+                    Iconic structures reimagined in brick — modern, sleek, and display-ready.
+                </p>
+                <a href="#featured" class="inline-block bg-legoBlue hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-full transition-colors duration-200 transform hover:scale-105 animate-fade-in animation-delay-200">
+                    View Featured Sets
+                </a>
+            </div>
+        </section>
+
+        <!-- Featured Sets -->
+        <section id="featured" class="py-16 md:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Featured Sets</h2>
+                    <div class="w-20 h-1 bg-legoBlue mx-auto mb-6"></div>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Discover our curated selection of premium LEGO Architecture sets for collectors and enthusiasts.</p>
+                </div>
+                
+                <!-- Architecture Sets Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Empire State Building -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 card-hover">
+                        <div class="aspect-w-16 aspect-h-9 bg-gray-100 overflow-hidden grayscale-hover">
+                            <div class="w-full h-64 flex items-center justify-center text-gray-400 image-hover">
+                                <span>Empire State Building (21046)</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold text-gray-900">Empire State Building</h3>
+                                <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-0.5 rounded">2,507 pcs</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">A stunning 1:1,000 scale model of New York's most iconic skyscraper, standing over 55cm tall.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-semibold text-gray-900">$299.99</span>
+                                <a href="#" class="text-legoBlue hover:text-blue-700 font-medium inline-flex items-center">
+                                    View Details <i class="fas fa-arrow-right ml-1.5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Burj Khalifa -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 card-hover">
+                        <div class="aspect-w-16 aspect-h-9 bg-gray-100 overflow-hidden grayscale-hover">
+                            <div class="w-full h-64 flex items-center justify-center text-gray-400 image-hover">
+                                <span>Burj Khalifa (21031)</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold text-gray-900">Burj Khalifa</h3>
+                                <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-0.5 rounded">333 pcs</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">The world's tallest building, captured in LEGO form at a scale of 1:3,300, standing 39cm tall.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-semibold text-gray-900">$89.99</span>
+                                <a href="#" class="text-legoBlue hover:text-blue-700 font-medium inline-flex items-center">
+                                    View Details <i class="fas fa-arrow-right ml-1.5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- The White House -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 card-hover">
+                        <div class="aspect-w-16 aspect-h-9 bg-gray-100 overflow-hidden grayscale-hover">
+                            <div class="w-full h-64 flex items-center justify-center text-gray-400 image-hover">
+                                <span>The White House (21054)</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold text-gray-900">The White House</h3>
+                                <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-0.5 rounded">1,483 pcs</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">A detailed recreation of the most famous residence in the United States, featuring the Executive Residence and West Wing.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-semibold text-gray-900">$99.99</span>
+                                <a href="#" class="text-legoBlue hover:text-blue-700 font-medium inline-flex items-center">
+                                    View Details <i class="fas fa-arrow-right ml-1.5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Great Pyramid of Giza -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 card-hover">
+                        <div class="aspect-w-16 aspect-h-9 bg-gray-100 overflow-hidden grayscale-hover">
+                            <div class="w-full h-64 flex items-center justify-center text-gray-400 image-hover">
+                                <span>Great Pyramid of Giza (21058)</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold text-gray-900">Great Pyramid of Giza</h3>
+                                <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-0.5 rounded">1,476 pcs</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">A detailed model showcasing the Great Pyramid as it would have appeared in ancient times, complete with original colors.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-semibold text-gray-900">$129.99</span>
+                                <a href="#" class="text-legoBlue hover:text-blue-700 font-medium inline-flex items-center">
+                                    View Details <i class="fas fa-arrow-right ml-1.5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- The Eiffel Tower -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 card-hover">
+                        <div class="aspect-w-16 aspect-h-9 bg-gray-100 overflow-hidden grayscale-hover">
+                            <div class="w-full h-64 flex items-center justify-center text-gray-400 image-hover">
+                                <span>The Eiffel Tower (21019)</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold text-gray-900">The Eiffel Tower</h3>
+                                <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-0.5 rounded">321 pcs</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">A detailed LEGO model of the iconic Parisian landmark, capturing its intricate lattice structure at 1:300 scale.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-semibold text-gray-900">$79.99</span>
+                                <a href="#" class="text-legoBlue hover:text-blue-700 font-medium inline-flex items-center">
+                                    View Details <i class="fas fa-arrow-right ml-1.5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sydney Opera House -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 card-hover">
+                        <div class="aspect-w-16 aspect-h-9 bg-gray-100 overflow-hidden grayscale-hover">
+                            <div class="w-full h-64 flex items-center justify-center text-gray-400 image-hover">
+                                <span>Sydney Opera House (10234)</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold text-gray-900">Sydney Opera House</h3>
+                                <span class="bg-gray-100 text-gray-600 text-xs font-medium px-2.5 py-0.5 rounded">2,989 pcs</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">A detailed model of one of the most distinctive and famous 20th-century buildings, featuring the iconic shell structures.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-semibold text-gray-900">$319.99</span>
+                                <a href="#" class="text-legoBlue hover:text-blue-700 font-medium inline-flex items-center">
+                                    View Details <i class="fas fa-arrow-right ml-1.5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CTA Section -->
+                <div class="mt-16 text-center">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Looking for More Architecture Sets?</h3>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">Explore our complete collection of LEGO Architecture sets, from famous skyscrapers to world landmarks.</p>
+                    <a href="#" class="inline-block bg-legoBlue hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-full transition-colors duration-200 transform hover:scale-105">
+                        View All Architecture Sets
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Pinterest Section -->
+        <section class="py-16 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Architectural Inspiration</h2>
+                    <div class="w-20 h-1 bg-legoBlue mx-auto mb-6"></div>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Explore our curated collection of LEGO Architecture builds, MOCs, and design inspiration.</p>
+                </div>
+                
+                <!-- Pinterest Board -->
+                <div class="bg-white rounded-xl shadow-sm p-8 text-center">
+                    <div class="max-w-3xl mx-auto">
+                        <i class="fab fa-pinterest text-5xl text-red-600 mb-6"></i>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Follow Our Architecture Board</h3>
+                        <p class="text-gray-600 mb-8">Get inspired by architectural marvels from around the world, recreated in LEGO form.</p>
+                        <a href="https://www.pinterest.com/imastudiosoffical/architecture/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors duration-200">
+                            <i class="fab fa-pinterest mr-2"></i> View on Pinterest
+                        </a>
+                    </div>
+                    
+                    <!-- Fallback Grid -->
+                    <div class="mt-12 grid grid-cols-2 md:grid-cols-3 gap-6">
+                        <div class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300">
+                            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                <span>World Landmarks</span>
+                            </div>
+                        </div>
+                        <div class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300">
+                            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                <span>Skyscrapers</span>
+                            </div>
+                        </div>
+                        <div class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300">
+                            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                <span>Modern Architecture</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo and Description -->
+                <div class="md:col-span-1">
+                    <div class="flex items-center mb-4">
+                        <img class="h-8 w-auto" src="logo.png" alt="Ima Studios logo">
+                        <span class="ml-2 text-xl font-bold">Ima Studios</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Showcasing the best LEGO builds and collections for enthusiasts and collectors.</p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="cars.html" class="text-gray-400 hover:text-white transition-colors">Cars</a></li>
+                        <li><a href="#" class="text-legoBlue font-medium">Architecture</a></li>
+                        <li><a href="technic.html" class="text-gray-400 hover:text-white transition-colors">Technic</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Legal -->
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Affiliate Disclosure</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Social -->
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">Connect</h3>
+                    <div class="flex space-x-4">
+                        <a href="https://www.pinterest.com/imastudiosoffical/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-red-500 transition-colors">
+                            <span class="sr-only">Pinterest</span>
+                            <i class="fab fa-pinterest text-2xl"></i>
+                        </a>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-400">
+                        As an affiliate, Ima Studios may earn from qualifying purchases.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="mt-12 pt-8 border-t border-gray-800">
+                <p class="text-center text-sm text-gray-400">
+                    &copy; 2023 Ima Studios. All rights reserved.<br class="sm:hidden">
+                    <span class="block sm:inline mt-1 sm:mt-0">LEGO® is a trademark of the LEGO Group which does not sponsor, authorize, or endorse this site.</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle functionality
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        let isMenuOpen = false;
+
+        function toggleMobileMenu() {
+            isMenuOpen = !isMenuOpen;
+            mobileMenu.classList.toggle('hidden');
+            mobileMenuButton.setAttribute('aria-expanded', isMenuOpen);
+            
+            // Toggle between hamburger and close icon
+            if (isMenuOpen) {
+                mobileMenuButton.innerHTML = `
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                `;
+                // Disable body scroll when menu is open
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenuButton.innerHTML = `
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                `;
+                // Re-enable body scroll when menu is closed
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (event) => {
+            const isClickInside = mobileMenu.contains(event.target) || mobileMenuButton.contains(event.target);
+            if (!isClickInside && isMenuOpen) {
+                toggleMobileMenu();
+            }
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (isMenuOpen) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        // Initialize mobile menu button
+        mobileMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMobileMenu();
+        });
+
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80, // Adjust for fixed header
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add animation classes to elements when they come into view
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('opacity-100', 'translate-y-0');
+                    element.classList.remove('opacity-0', 'translate-y-8');
+                }
+            });
+        };
+
+        // Run once on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add animation to featured sets
+            const featuredCards = document.querySelectorAll('.featured-card');
+            featuredCards.forEach((card, index) => {
+                card.classList.add('opacity-0', 'translate-y-8', 'transition-all', 'duration-500', 'ease-out');
+                card.style.transitionDelay = `${index * 100}ms`;
+            });
+            
+            // Initial check for elements in viewport
+            setTimeout(animateOnScroll, 100);
+        });
+
+        // Run on scroll
+        window.addEventListener('scroll', animateOnScroll);
+    </script>
+</body>
+</html>
